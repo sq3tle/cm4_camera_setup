@@ -1,0 +1,36 @@
+---
+- name: Purge old data
+  hosts: localhost
+  gather_facts: no
+  become: true
+  tasks:
+    - name: Remove folder camera0
+      file:
+        state: absent
+        path: "/home/pi/camera0"
+    
+    - name: Re-make camera0
+      file:
+        state: directory
+        path: "/home/pi/camera0"
+        
+    - name: Remove folder camera1
+      file:
+        state: absent
+        path: "/home/pi/camera1"
+    
+    - name: Re-make camera1
+      file:
+        state: directory
+        path: "/home/pi/camera1"
+        
+    - name: Remove folder sensors
+      file:
+        state: absent
+        path: "/home/pi/sensors"
+    
+    - name: Re-make sensors
+      file:
+        state: directory
+        path: "/home/pi/sensors"
+            
