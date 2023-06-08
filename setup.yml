@@ -37,15 +37,15 @@
     #     dest: "~/.ssh/authorized_keys"
     #     line: "{{ key_Duszkiewicz.content }}"
 
-    # - name: Enable Camera_0 
-    #   lineinfile:
-    #       path: /boot/config.txt
-    #       line: "dtoverlay=ov5647,cam0"
+    - name: Enable Camera_0 
+      lineinfile:
+          path: /boot/config.txt
+          line: "dtoverlay=ov5647,cam0"
           
-    # - name: Enable Camera_1
-    #   lineinfile:
-    #       path: /boot/config.txt
-    #       line: "dtoverlay=ov5647,cam1"
+    - name: Enable Camera_1
+      lineinfile:
+          path: /boot/config.txt
+          line: "dtoverlay=ov5647,cam1"
 
     - name: Enable SPI
       lineinfile:
