@@ -21,3 +21,25 @@ Płytka jest gotowa do pracy. Oto najważniejsze komendy
 | ansible-playbook disable.yml | Wyłącza rejestrację danych, nawet po resecie zasilania  |
 | ansible-playbook sync_rtc.yml | Synchronizuje zegar RTC z obecnego czasu systemowego   |
 | ansible-playbook purge.yml | Usuwa dotychczasowe dane  |
+
+## Checklista przed lotem
+
+ - [ ] Usuń stare dane używając: ***ansible-playbook purge.yml***
+ - [ ] Jeśli posiadasz połączenie z internetem wykonaj ***ansible-playbook sync_rtc.yml***
+ - [ ] Włącz nagrywanie danych używając: ***ansible-playbook enable.yml***
+ - [ ] Poczekaj 20 sekund aby powstały pierwsze kompletne nagrania;
+ - [ ] Pobierz najstarsze nagranie z folderu camera0 i zweryfikuj jego zawartość;
+ - [ ] Sprawdź czy liczba plików w folderze camera0 zwiększa się co 10 sekund;
+ - [ ] Pobierz najstarsze nagranie z folderu camera1 i zweryfikuj jego zawartość;
+ - [ ] Sprawdź czy liczba plików w folderze camera1 zwiększa się co 10 sekund;
+ - [ ] Sprawdź czy liczba plików w folderze sensors zwiększa się co 10 sekund;
+ - [ ] Zamknij sesję terminala;
+ - [ ] Wyłącz router wifi z którym połączone jest raspberry pi;
+ 
+ I jesteś gotowy do lotu! Zanotuj dokładny czas startu z precyzją do paru minut. Ułatwi ci to szukanie lotu w nagraniach.
+
+## Checklista po locie
+ - [ ] Wyłączasz nagrywanie danych używając: ***ansible-playbook disable.yml***
+ - [ ] Wyłączasz raspberry pi używając ***sudo shutdown now***
+
+Potem na spokojnie poszukaj nagrań lotu w folderach camera0, camera1, sensors. Jeśli wszystko poszło dobrze wystarczy kierować się czasem stworzenia pliku. 
