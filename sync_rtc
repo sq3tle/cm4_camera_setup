@@ -1,0 +1,9 @@
+---
+- name: Sync RTC time from network
+  hosts: localhost
+  gather_facts: no
+  become: true
+  tasks:
+    - name: sync RTC from current system time
+      command: hwclock -w
+
