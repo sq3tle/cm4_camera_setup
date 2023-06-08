@@ -1,0 +1,19 @@
+---
+- name: Start and enable recording on both cameras
+  hosts: localhost
+  become: true
+  gather_facts: no
+  tasks:
+ 
+    - name: Enable and start camera0 service
+      service:
+        name: camera0
+        state: started
+        enabled: yes
+        
+    - name: Enable and start camera1 service
+      service:
+        name: camera1
+        state: started
+        enabled: yes
+
