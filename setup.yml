@@ -1,6 +1,7 @@
 ---
 - name: Setup Kreweta CM4
   hosts: localhost
+  gather_facts: no
   become: true
   tasks:
   
