@@ -114,7 +114,23 @@
           [Install]
           WantedBy=multi-user.target
         dest: /etc/systemd/system/camera1.service
-
+        
+    - name: Creates directory for camera0 recordings
+      file:
+        path: /home/pi/camera0
+        state: directory    
+        
+    - name: Creates directory for camera1 recordings
+      file:
+        path: /home/pi/camera1
+        state: directory    
+        
+    - name: Creates directory for sensor data
+      file:
+        path: /home/pi/sensors
+        state: directory   
+        
     - name: Reload systemd
       systemd:
         daemon_reload: yes
+        
