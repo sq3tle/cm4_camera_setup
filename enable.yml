@@ -17,7 +17,7 @@
         state: started
         enabled: yes
 
-    - name: Enable and start camera1 service
+    - name: Enable and start sensors service
       service:
         name: sensors
         state: started
