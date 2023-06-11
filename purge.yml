@@ -34,3 +34,17 @@
         state: directory
         path: "/home/pi/sensors"
             
+    - name: Find IIS data files
+      find:
+        paths: /sensors
+        patterns: (?i).IIS_*.bin
+        use_regex: true
+      register: rm_files
+    
+    - name: Remove IIS data files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ rm_files.files }}"
+      loop_control:
+        label: "{{ item.path }}"
