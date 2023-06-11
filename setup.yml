@@ -87,6 +87,7 @@
         content: |
           [Unit]
           Description=Camera_0 recording service
+          After=multi-user.target
 
           [Service]
           User=pi
@@ -104,6 +105,7 @@
         content: |
           [Unit]
           Description=Camera_1 recording service
+          After=multi-user.target
 
           [Service]
           User=pi
@@ -149,6 +151,7 @@
         content: |
           [Unit]
           Description=Sensors recording service
+          After=multi-user.target
 
           [Service]
           User=pi
