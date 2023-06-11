@@ -137,6 +137,22 @@
       copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi
     
     - name: Compile iis_recoderder
-      command: /bin/gcc -o /home/pi/sensors/iis_recoderder /home/pi/sensors/iis_recoderder.c /home/pi/sensors/iis3dwb_reg.c -lm
+      command: /bin/gcc -o /home/pi/sensors/iis_recoder /home/pi/sensors/iis_recoder.c /home/pi/sensors/iis3dwb_reg.c -lm
+      
+    - name: Create service for sensors
+      copy:
+        content: |
+          [Unit]
+          Description=Sensors recording service
+
+          [Service]
+          Restart=on-failure
+          RestartSec=5s
+          WorkingDirectory=/home/pi/sensors
+          ExecStart=/home/pi/sensors/iis_recoder
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/camera1.service
     
        
