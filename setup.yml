@@ -89,6 +89,7 @@
           Description=Camera_0 recording service
 
           [Service]
+          User=pi
           Restart=on-failure
           RestartSec=5s
           WorkingDirectory=/home/pi/data
@@ -105,6 +106,7 @@
           Description=Camera_1 recording service
 
           [Service]
+          User=pi
           Restart=on-failure
           RestartSec=5s
           WorkingDirectory=/home/pi/data
@@ -118,15 +120,13 @@
       file:
         path: /home/pi/camera0
         state: directory    
-        owner: pi
-        group: pi
+        mode: '0777'
         
     - name: Creates directory for camera1 recordings
       file:
         path: /home/pi/camera1
         state: directory   
-        owner: pi
-        group: pi
+        mode: '0777'
         
 #     - name: Creates directory for sensor data
 #       file:
@@ -134,10 +134,14 @@
 #         state: directory   
     
     - name: Copy sensors folders
-      copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi
+      copy:
+        remote_src: True
+        src: /home/pi/setup/sensors
+        dest: /home/pi
+        mode: '0777'
       
     
-    - name: Compile iis_recoderder
+    - name: Compile iis_recoder
       command: /bin/gcc -o /home/pi/sensors/iis_recorder /home/pi/sensors/iis_recorder.c /home/pi/sensors/iis3dwb_reg.c -lm
       
     - name: Create service for sensors
@@ -147,6 +151,7 @@
           Description=Sensors recording service
 
           [Service]
+          User=pi
           Restart=on-failure
           RestartSec=5s
           WorkingDirectory=/home/pi/sensors
