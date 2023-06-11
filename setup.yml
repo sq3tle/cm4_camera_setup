@@ -128,10 +128,6 @@
 #       file:
 #         path: /home/pi/sensors
 #         state: directory   
-        
-    - name: Reload systemd
-      systemd:
-        daemon_reload: yes
     
     - name: Copy sensors folders
       copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi
@@ -155,4 +151,6 @@
           WantedBy=multi-user.target
         dest: /etc/systemd/system/sensors.service
     
-       
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
