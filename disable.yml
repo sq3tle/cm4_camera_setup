@@ -16,3 +16,9 @@
         name: camera1
         state: stopped
         enabled: false
+        
+    - name: Disable and stop sensors service
+      service:
+        name: sensors
+        state: stopped
+        enabled: false
