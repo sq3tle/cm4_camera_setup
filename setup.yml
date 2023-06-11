@@ -134,7 +134,7 @@
         daemon_reload: yes
     
     - name: Copy sensors folders
-      copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi/sensors
+      copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi
     
     - name: Compile iis_recoderder
       command: /bin/gcc -o /home/pi/sensors/iis_recoderder /home/pi/sensors/iis_recoderder.c /home/pi/sensors/iis3dwb_reg.c -lm
