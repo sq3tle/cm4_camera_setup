@@ -140,7 +140,7 @@
           Restart=on-failure
           RestartSec=5s
           WorkingDirectory=/home/pi/camera0
-          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 10000 -o /home/pi/camera0/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 20; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 0 --framerate 15 -b 5000000"
+          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 10000 -o /home/pi/camera0/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 12; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 0 --framerate 15 -b 5000000"
           
           [Install]
           WantedBy=multi-user.target
@@ -158,7 +158,7 @@
           Restart=on-failure
           RestartSec=5s
           WorkingDirectory=/home/pi/camera1
-          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 10000 -o /home/pi/camera1/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 20; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 1 --framerate 15 -b 5000000"
+          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 10000 -o /home/pi/camera1/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 12; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 1 --framerate 15 -b 5000000"
           [Install]
           WantedBy=multi-user.target
         dest: /etc/systemd/system/camera1.service
