@@ -5,7 +5,7 @@ Instrukcja pierwszego setupu:
     sudo apt-get update
     sudo apt-get install ansible git
     git clone https://github.com/sq3tle/cm4_camera_setup setup
-    ansible-playbook setup.yml
+    ansible-playbook setup/setup.yml
     
 Po zakończeniu playbooka zrestartuj raspberry pi:
 
