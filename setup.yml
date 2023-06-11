@@ -139,7 +139,7 @@
           User=pi
           Restart=on-failure
           RestartSec=5s
-          WorkingDirectory=/home/pi/data
+          WorkingDirectory=/home/pi/camera0
           ExecStart=/bin/libcamera-vid --split --segment 10000 -o /home/pi/camera0/rec_$(echo $RANDOM | base64 | head -c 20; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 0 --framerate 15 -b 5000000
 
           [Install]
@@ -157,7 +157,7 @@
           User=pi
           Restart=on-failure
           RestartSec=5s
-          WorkingDirectory=/home/pi/data
+          WorkingDirectory=/home/pi/camera1
           ExecStart=/bin/libcamera-vid --split --segment 10000 -o /home/pi/camera1/rec_$(echo $RANDOM | base64 | head -c 20; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 1 --framerate 15 -b 5000000
 
           [Install]
