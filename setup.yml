@@ -2,7 +2,6 @@
 - name: Setup Kreweta CM4
   hosts: localhost
   become: true
-  become_user: pi
   tasks:
     - name: Remove /etc/profile.d/sshpwd.sh
       ansible.builtin.file:
@@ -85,18 +84,27 @@
     - name: Creates directory for camera0 recordings
       file:
         path: /home/pi/camera0
-        state: directory    
+        state: directory
+        owner: pi
+        group: pi
+        mode: 0755 
         
     - name: Creates directory for camera1 recordings
       file:
         path: /home/pi/camera1
         state: directory   
+        owner: pi
+        group: pi
+        mode: 0755 
     
     - name: Copy sensors folders
       copy:
         remote_src: True
         src: /home/pi/setup/sensors
         dest: /home/pi
+        owner: pi
+        group: pi
+        mode: 0755 
       
     
     - name: Compile iis_recorder
