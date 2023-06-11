@@ -4,47 +4,47 @@
   gather_facts: no
   become: true
   tasks:
-    - name: Remove folder camera0
-      file:
-        state: absent
-        path: "/home/pi/camera0"
+    - name: Find camera0 data files
+      find:
+        paths: /home/pi/camera0
+        patterns: (?i).rec*.h264
+        use_regex: true
+      register: rm_camera0
     
-    - name: Re-make camera0
-      file:
-        state: directory
-        path: "/home/pi/camera0"
-        
-    - name: Remove folder camera1
-      file:
-        state: absent
-        path: "/home/pi/camera1"
-    
-    - name: Re-make camera1
-      file:
-        state: directory
-        path: "/home/pi/camera1"
-        
-    - name: Remove folder sensors
-      file:
-        state: absent
-        path: "/home/pi/sensors"
-    
-    - name: Re-make sensors
-      file:
-        state: directory
-        path: "/home/pi/sensors"
+    - name: Find camera1 data files
+      find:
+        paths: /home/pi/camera1
+        patterns: (?i).rec*.h264
+        use_regex: true
+      register: rm_camera1
             
     - name: Find IIS data files
       find:
-        paths: /sensors
+        paths: /home/pi/sensors
         patterns: (?i).IIS_*.bin
         use_regex: true
-      register: rm_files
+      register: rm_iis
     
+    - name: Remove camera0 data files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ rm_camera0.files }}"
+      loop_control:
+        label: "{{ item.path }}"
+        
+    - name: Remove camera1 data files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ rm_camera1.files }}"
+      loop_control:
+        label: "{{ item.path }}"
+        
     - name: Remove IIS data files
       file:
         path: "{{ item.path }}"
         state: absent
-      with_items: "{{ rm_files.files }}"
+      with_items: "{{ rm_iis.files }}"
       loop_control:
         label: "{{ item.path }}"
