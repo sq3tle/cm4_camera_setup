@@ -99,7 +99,7 @@
         dest: /home/pi
       
     
-    - name: Compile iis_recoder
+    - name: Compile iis_recorder
       command: /bin/gcc -o /home/pi/sensors/iis_recorder /home/pi/sensors/iis_recorder.c /home/pi/sensors/iis3dwb_reg.c -lm
       
     - name: Create service for sensors
