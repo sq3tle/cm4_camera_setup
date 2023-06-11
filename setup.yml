@@ -153,6 +153,6 @@
 
           [Install]
           WantedBy=multi-user.target
-        dest: /etc/systemd/system/camera1.service
+        dest: /etc/systemd/system/sensors.service
     
        
