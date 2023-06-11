@@ -7,21 +7,21 @@
     - name: Find camera0 data files
       find:
         paths: /home/pi/camera0
-        patterns: (?i).rec*.h264
+        patterns: "rec*.h264"
         use_regex: true
       register: rm_camera0
     
     - name: Find camera1 data files
       find:
         paths: /home/pi/camera1
-        patterns: (?i).rec*.h264
+        patterns: "rec*.h264"
         use_regex: true
       register: rm_camera1
             
     - name: Find IIS data files
       find:
         paths: /home/pi/sensors
-        patterns: (?i).IIS_*.bin
+        patterns: "IIS_*.bin"
         use_regex: true
       register: rm_iis
     
