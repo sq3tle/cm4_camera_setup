@@ -155,7 +155,7 @@
           Restart=on-failure
           RestartSec=5s
           WorkingDirectory=/home/pi/sensors
-          ExecStart=/home/pi/sensors/iis_recoder
+          ExecStart=/home/pi/sensors/iis_recorder
 
           [Install]
           WantedBy=multi-user.target
