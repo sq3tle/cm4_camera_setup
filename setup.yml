@@ -137,7 +137,7 @@
       copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi
     
     - name: Compile iis_recoderder
-      command: /bin/gcc -o /home/pi/sensors/iis_recoder /home/pi/sensors/iis_recoder.c /home/pi/sensors/iis3dwb_reg.c -lm
+      command: /bin/gcc -o /home/pi/sensors/iis_recorder /home/pi/sensors/iis_recorder.c /home/pi/sensors/iis3dwb_reg.c -lm
       
     - name: Create service for sensors
       copy:
