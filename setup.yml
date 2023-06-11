@@ -118,11 +118,15 @@
       file:
         path: /home/pi/camera0
         state: directory    
+        owner: pi
+        group: pi
         
     - name: Creates directory for camera1 recordings
       file:
         path: /home/pi/camera1
-        state: directory    
+        state: directory   
+        owner: pi
+        group: pi
         
 #     - name: Creates directory for sensor data
 #       file:
@@ -131,6 +135,7 @@
     
     - name: Copy sensors folders
       copy: remote_src=True src=/home/pi/setup/sensors dest=/home/pi
+      
     
     - name: Compile iis_recoderder
       command: /bin/gcc -o /home/pi/sensors/iis_recorder /home/pi/sensors/iis_recorder.c /home/pi/sensors/iis3dwb_reg.c -lm
