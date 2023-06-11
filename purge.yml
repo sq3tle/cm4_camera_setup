@@ -4,47 +4,39 @@
   gather_facts: no
   become: true
   tasks:
+  
     - name: Find camera0 data files
-      find:
+      ansible.builtin.find:
         paths: /home/pi/camera0
-        patterns: "rec*.h264"
-        use_regex: true
+        patterns: 'rec_*.h264'
       register: rm_camera0
-    
+      
     - name: Find camera1 data files
-      find:
+      ansible.builtin.find:
         paths: /home/pi/camera1
-        patterns: "rec*.h264"
-        use_regex: true
+        patterns: 'rec_*.h264'
       register: rm_camera1
-            
-    - name: Find IIS data files
-      find:
+      
+    - name: Find sensors data files
+      ansible.builtin.find:
         paths: /home/pi/sensors
-        patterns: "IIS_*.bin"
-        use_regex: true
-      register: rm_iis
-    
+        patterns: 'IIS*.bin'
+      register: rm_sensors
+
     - name: Remove camera0 data files
-      file:
+      ansible.builtin.file:
         path: "{{ item.path }}"
         state: absent
       with_items: "{{ rm_camera0.files }}"
-      loop_control:
-        label: "{{ item.path }}"
-        
+      
     - name: Remove camera1 data files
-      file:
+      ansible.builtin.file:
         path: "{{ item.path }}"
         state: absent
       with_items: "{{ rm_camera1.files }}"
-      loop_control:
-        label: "{{ item.path }}"
-        
-    - name: Remove IIS data files
-      file:
+
+    - name: Remove sensors data files
+      ansible.builtin.file:
         path: "{{ item.path }}"
         state: absent
-      with_items: "{{ rm_iis.files }}"
-      loop_control:
-        label: "{{ item.path }}"
+      with_items: "{{ rm_sensors.files }}"
