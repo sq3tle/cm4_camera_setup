@@ -124,10 +124,10 @@
         path: /home/pi/camera1
         state: directory    
         
-    - name: Creates directory for sensor data
-      file:
-        path: /home/pi/sensors
-        state: directory   
+#     - name: Creates directory for sensor data
+#       file:
+#         path: /home/pi/sensors
+#         state: directory   
         
     - name: Reload systemd
       systemd:
