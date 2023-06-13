@@ -8,13 +8,13 @@
     - name: Find camera0 data files
       ansible.builtin.find:
         paths: /home/pi/camera0
-        patterns: 'rec_*.h264'
+        patterns: 'rec-*.h264'
       register: rm_camera0
       
     - name: Find camera1 data files
       ansible.builtin.find:
         paths: /home/pi/camera1
-        patterns: 'rec_*.h264'
+        patterns: 'rec-*.h264'
       register: rm_camera1
       
     - name: Find sensors data files
