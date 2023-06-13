@@ -178,7 +178,7 @@
           [Service]
           Type=Simple
           Restart=always
-          ExecStart=/usr/bin/python3 /home/pi/camera1/home/pi/start_recording.py
+          ExecStart=/usr/bin/python3 /home/pi/camera1/start_recording.py
           WorkingDirectory=/home/pi/camera1
             
           [Install]
