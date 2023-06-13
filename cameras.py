@@ -51,7 +51,15 @@ class SplitOutput(Output):
 
 
 # CAMERA SETUP
-cam = Picamera2(camera)
+try:
+    cam = Picamera2(camera)
+except:
+    print("CATASTROPHIC FAILURE - NO CAMERA")
+        import RPi.GPIO as GPIO
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(16, GPIO.OUT)
+        exit(10)
+       
 cam.configure(cam.create_video_configuration(video_config))
 cam.encoder = H264Encoder(4000000, repeat=True)
 
@@ -60,7 +68,7 @@ cam.start_encoder()
 cam.start()
 while 1:
     if not cam.encoder.output.running():
-        print("CATASTROPHIC FAILURE")
+        print("CATASTROPHIC FAILURE - TIMEOUT")
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(16, GPIO.OUT)
