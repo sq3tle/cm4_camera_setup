@@ -3,7 +3,7 @@
 Instrukcja pierwszego setupu:
 
     sudo apt-get update
-    sudo apt-get install ansible git
+    sudo apt-get install ansible git -y
     git clone https://github.com/sq3tle/cm4_camera_setup setup
     ansible-playbook setup/setup.yml
     
