@@ -12,29 +12,6 @@
       ansible.builtin.file:
         path: "/etc/motd"
         state: "absent"
-      
-    # - name: Fetch sq3tle public key
-    #   uri:
-    #     url: "https://github.com/sq3tle.keys"
-    #     return_content: yes
-    #   register: key_sq3tle
-
-    # - name: Append sq3tle to authorized_keys
-    #   lineinfile:
-    #     dest: "~/.ssh/authorized_keys"
-    #     line: "{{ key_sq3tle.content }}"
-    #     create: True
-      
-    # - name: Fetch Duszkiewicz public key
-    #   uri:
-    #     url: "https://github.com/Duszkiewicz.keys"
-    #     return_content: yes
-    #   register: key_Duszkiewicz
-
-    # - name: Append Duszkiewicz key to authorized_keys
-    #   lineinfile:
-    #     dest: "~/.ssh/authorized_keys"
-    #     line: "{{ key_Duszkiewicz.content }}"
 
     - name: Enable Camera_0 
       lineinfile:
@@ -66,7 +43,7 @@
           path: /boot/config.txt
           line: "dtoverlay=pwm,pin=12,func=4"
 
-    - name: Enable RTC (WIP!!!)
+    - name: Enable RTC
       lineinfile:
           path: /boot/config.txt
           line: "dtoverlay=i2c-rtc,rv3028,backup-switchover-mode=1,i2c_csi_dsi"
@@ -80,6 +57,10 @@
         - git
         - python3
         - python3-pip
+        
+    - name: Install picamera2 python package 
+      ansible.builtin.pip:
+        name: picamera2
 
     - name: Creates directory for camera0 recordings
       file:
@@ -105,7 +86,6 @@
         owner: pi
         group: pi
         mode: 0755 
-      
     
     - name: Compile iis_recorder
       command: /bin/gcc -o /home/pi/sensors/iis_recorder /home/pi/sensors/iis_recorder.c /home/pi/sensors/iis3dwb_reg.c -lm
@@ -138,9 +118,9 @@
           [Service]
           User=pi
           Restart=on-failure
-          RestartSec=5s
+          RestartSec=1s
           WorkingDirectory=/home/pi/camera0
-          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 60000 -o /home/pi/camera0/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 12; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 0 --framerate 25 -b 5000000"
+          ExecStart=/bin/python3 /home/pi/setup/cameras.py 0
           
           [Install]
           WantedBy=multi-user.target
@@ -156,9 +136,10 @@
           [Service]
           User=pi
           Restart=on-failure
-          RestartSec=5s
+          RestartSec=1s
           WorkingDirectory=/home/pi/camera1
-          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 60000 -o /home/pi/camera1/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 12; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 1 --framerate 25 -b 5000000"
+          ExecStart=/bin/python3 /home/pi/setup/cameras.py 1
+          
           [Install]
           WantedBy=multi-user.target
         dest: /etc/systemd/system/camera1.service
