@@ -58,7 +58,7 @@
         - python3
         - python3-pip
         
-    - name: Install bottle python package on version 0.11
+    - name: Install picamera python package
       ansible.builtin.pip:
         name: picamera
 
@@ -117,7 +117,7 @@
             def gen_name():
                 global vid_id
                 vid_id += 1
-                return \"/home/pi/camera0/\"+\"vid\"+random_id+\"-\"+str(vid_id)+\".h264\"
+                return "/home/pi/camera0/rec{}_{}.h264".format(random_id, str(vid_id))
             while 1:
                 try:
                     with picamera.PiCamera(camera_num=0) as camera:
@@ -138,7 +138,7 @@
             def gen_name():
                 global vid_id
                 vid_id += 1
-                return \"/home/pi/camera1/\"+\"vid\"+random_id+\"-\"+str(vid_id)+\".h264\"
+                return "/home/pi/camera1/rec{}_{}.h264".format(random_id, str(vid_id))
             while 1:
                 try:
                     with picamera.PiCamera(camera_num=1) as camera:
