@@ -12,6 +12,29 @@
       ansible.builtin.file:
         path: "/etc/motd"
         state: "absent"
+      
+    # - name: Fetch sq3tle public key
+    #   uri:
+    #     url: "https://github.com/sq3tle.keys"
+    #     return_content: yes
+    #   register: key_sq3tle
+
+    # - name: Append sq3tle to authorized_keys
+    #   lineinfile:
+    #     dest: "~/.ssh/authorized_keys"
+    #     line: "{{ key_sq3tle.content }}"
+    #     create: True
+      
+    # - name: Fetch Duszkiewicz public key
+    #   uri:
+    #     url: "https://github.com/Duszkiewicz.keys"
+    #     return_content: yes
+    #   register: key_Duszkiewicz
+
+    # - name: Append Duszkiewicz key to authorized_keys
+    #   lineinfile:
+    #     dest: "~/.ssh/authorized_keys"
+    #     line: "{{ key_Duszkiewicz.content }}"
 
     - name: Enable Camera_0 
       lineinfile:
@@ -57,10 +80,6 @@
         - git
         - python3
         - python3-pip
-        
-    - name: Install picamera python package
-      ansible.builtin.pip:
-        name: picamera
 
     - name: Creates directory for camera0 recordings
       file:
@@ -109,61 +128,20 @@
           WantedBy=multi-user.target
         dest: /etc/systemd/system/sensors.service
         
-    - name: Create runtime for camera0
-      copy:
-        content: |
-            import picamera,random,string
-            random_id, vid_id = (''.join(random.choice(string.ascii_letters + string.digits ) for i in range(8))).upper(), 0
-            def gen_name():
-                global vid_id
-                vid_id += 1
-                return "/home/pi/camera0/rec{}_{}.h264".format(random_id, str(vid_id))
-            while 1:
-                try:
-                    with picamera.PiCamera(camera_num=0) as camera:
-                        camera.resolution = (1920, 1080)
-                        camera.start_recording(gen_name(),inline_headers=True, format='h264', bitrate=5000000)
-                        while 1:
-                            camera.wait_recording(10)
-                            camera.split_recording(gen_name())
-                except Exception:
-                    pass
-        dest: /home/pi/camera0/start_recording.py
-        
-    - name: Create runtime for camera1
-      copy:
-        content: |
-            import picamera,random,string
-            random_id, vid_id = (''.join(random.choice(string.ascii_letters + string.digits ) for i in range(8))).upper(), 0
-            def gen_name():
-                global vid_id
-                vid_id += 1
-                return "/home/pi/camera1/rec{}_{}.h264".format(random_id, str(vid_id))
-            while 1:
-                try:
-                    with picamera.PiCamera(camera_num=1) as camera:
-                        camera.resolution = (1920, 1080)
-                        camera.start_recording(gen_name(),inline_headers=True, format='h264', bitrate=5000000)
-                        while 1:
-                            camera.wait_recording(10)
-                            camera.split_recording(gen_name())
-                except Exception:
-                    pass
-        dest: /home/pi/camera0/start_recording.py
-        
     - name: Create service for camera0
       copy:
         content: |
           [Unit]
-          Description=Recording from picamera
-          After=network.target
-            
+          Description=Camera_0 recording service
+          After=multi-user.target
+
           [Service]
-          Type=Simple
-          Restart=always
-          ExecStart=/usr/bin/python3 /home/pi/camera0/start_recording.py
+          User=pi
+          Restart=on-failure
+          RestartSec=5s
           WorkingDirectory=/home/pi/camera0
-            
+          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 60000 -o /home/pi/camera0/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 12; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 0 --framerate 25 -b 5000000"
+          
           [Install]
           WantedBy=multi-user.target
         dest: /etc/systemd/system/camera0.service
@@ -172,15 +150,15 @@
       copy:
         content: |
           [Unit]
-          Description=Recording from picamera
-          After=network.target
-            
+          Description=Camera_1 recording service
+          After=multi-user.target
+
           [Service]
-          Type=Simple
-          Restart=always
-          ExecStart=/usr/bin/python3 /home/pi/camera1/start_recording.py
+          User=pi
+          Restart=on-failure
+          RestartSec=5s
           WorkingDirectory=/home/pi/camera1
-            
+          ExecStart=/bin/sh -c "/bin/libcamera-vid --split --segment 60000 -o /home/pi/camera1/rec_$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 12; echo)_%%06d.h264 --inline -t 0 -v 0 --width 1920 --height 1080 --camera 1 --framerate 25 -b 5000000"
           [Install]
           WantedBy=multi-user.target
         dest: /etc/systemd/system/camera1.service
