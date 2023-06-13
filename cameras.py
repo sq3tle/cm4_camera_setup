@@ -19,7 +19,7 @@ print("session_id:", session_id)
 
 class SplitOutput(Output):
 
-    def __init__(self, filename, fps=25):
+    def __init__(self, filename, fps=30):
         super().__init__()
         self._cfile = None
         self._filename = filename
@@ -61,6 +61,9 @@ cam.start()
 while 1:
     if not cam.encoder.output.running():
         print("CATASTROPHIC FAILURE")
+        import RPi.GPIO as GPIO
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(16, GPIO.OUT)
         exit(10)
     time.sleep(1)
 
