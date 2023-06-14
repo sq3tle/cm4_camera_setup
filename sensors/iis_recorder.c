@@ -118,9 +118,6 @@ void main(void)
 
 
       num = fifo_status.fifo_level;
-      sprintf((char *)tx_buffer, "-- FIFO num %d \r\n", num);
-      tx_com(tx_buffer, strlen((char const *)tx_buffer));
-
       /* read out all FIFO entries in a single read */
       iis3dwb_fifo_out_multi_raw_get(&dev_ctx, fifo_data, num);
 
