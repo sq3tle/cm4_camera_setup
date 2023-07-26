@@ -2,6 +2,8 @@ import random
 import string
 import sys
 import time
+import os
+from concurrent.futures import ThreadPoolExecutor
 
 from picamera2 import Picamera2
 from picamera2.encoders import H264Encoder
@@ -31,11 +33,22 @@ camera_config = cam.create_still_configuration()
 cam.configure(camera_config)
 cam.start()
 cam.set_controls({"AfMode": 0, "LensPosition": 3.0})
-time.sleep(5)
+time.sleep(1)
+
+executor = ThreadPoolExecutor(max_workers=1)
 
 while 1:
-    number+=1
-    cam.capture_file("{}img-{}_{}.jpg".format(path, session_id, str(number).zfill(6)))
+    file_name = "{}img-{}_{}.jpg".format(path, session_id, str(number).zfill(6))
+    number += 1
+    
+    future = executor.submit(cam.capture_file, file_name)
+    
+    try:
+        future.result(timeout=5)
+    except:
+        print("Operation took longer than 5 seconds. Exiting with code 10.")
+        exit(10)
+
     time.sleep(5)
 
 cam.stop()
