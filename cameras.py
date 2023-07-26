@@ -47,7 +47,7 @@ while 1:
         future.result(timeout=5)
     except:
         print("Operation took longer than 5 seconds. Exiting with code 10.")
-        exit(10)
+        os._exit(10)
 
     time.sleep(5)
 
