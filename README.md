@@ -1,5 +1,7 @@
 # Skrypty do płytki Kreweta CM4
 
+Zainstaluj raspberry pi os 64bit w wersji lite.
+
 Instrukcja pierwszego setupu:
 
     sudo apt-get update
